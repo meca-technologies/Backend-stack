@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise-Grade Conversational AI Architecture</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f4f8;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #0078d4;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        
+        .architecture-diagram {
+            position: relative;
+            height: 2200px;
+            margin-bottom: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            overflow: auto;
+        }
+        
+        .component {
+            position: absolute;
+            border-radius: 8px;
+            padding: 18px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            z-index: 10;
+            width: 180px;
+        }
+        
+        .component:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            z-index: 100;
+        }
+        
+        .component-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .component-description {
+            font-size: 13px;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+
+        .security-component {
+            background-color: #f8f8e8;
+            border: 2px solid #b8860b;
+            color: #8b6914;
+        }
+        
+        .wide-component {
+            width: 240px;
+        }
+        
+        .extra-wide-component {
+            width: 350px;
+        }
+        
+        /* Component Types */
+        .user-component {
+            background-color: #e8f5ff;
+            border: 2px solid #0078d4;
+            color: #0078d4;
+        }
+        
+        .azure-networking {
+            background-color: #dcf2ff;
+            border: 2px solid #00b7c3;
+            color: #00b7c3;
+        }
+        
+        .k8s-component {
+            background-color: #f0f4ff;
+            border: 2px solid #3e65ff;
+            color: #3e65ff;
+        }
+        
+        .celery-component {
+            background-color: #f4f0ff;
+            border: 2px solid #7b4eff;
+            color: #7b4eff;
+        }
+        
+        .data-component {
+            background-color: #fff0f7;
+            border: 2px solid #ff4dae;
+            color: #ff4dae;
+        }
+        
+        .monitoring-component {
+            background-color: #fff6e8;
+            border: 2px solid #ff8c00;
+            color: #ff8c00;
+        }
+
+        .llm-component {
+            background-color: #efffef;
+            border: 2px solid #23c552;
+            color: #23c552;
+        }
+
+        .speech-component {
+            background-color: #f5f0ff;
+            border: 2px solid #8a2be2;
+            color: #8a2be2;
+        }
+        
+        .section-border {
+            position: absolute;
+            border: 2px dashed #ccc;
+            border-radius: 15px;
+            z-index: 0;
+            background-color: rgba(240, 240, 240, 0.3);
+        }
+        
+        .section-label {
+            position: absolute;
+            background-color: #f0f4f8;
+            padding: 7px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #666;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+        }
+        
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 8px 20px;
+        }
+        
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+        
+        .info-panel {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+        
+        .info-panel h2 {
+            color: #0078d4;
+            margin-top: 0;
+            font-size: 24px;
+        }
+        
+        #component-details {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        
+        .flow-label {
+            position: absolute;
+            font-size: 13px;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 5px 10px;
+            border-radius: 12px;
+            color: #333;
+            font-weight: 500;
+            z-index: 6;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+
+        .on-prem-border {
+            position: absolute;
+            border: 3px solid #444;
+            border-radius: 15px;
+            background-color: rgba(220, 220, 220, 0.2);
+            z-index: 0;
+        }
+        
+        /* Connection lines */
+        .connector {
+            stroke-width: 2.5;
+            fill: none;
+            z-index: 1;
+        }
+        
+        .standard-connector {
+            stroke: #666;
+        }
+        
+        .replication-connector {
+            stroke: #ff4dae;
+        }
+        
+        .bidirectional-connector {
+            stroke: #0078d4;
+        }
+        
+        .speech-connector {
+            stroke: #8a2be2;
+        }
+        
+        .llm-connector {
+            stroke: #23c552;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Our Backend Architecture Stack - with PLG LLM & TTS+</h1>
+        
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #e8f5ff; border: 2px solid #0078d4;"></div>
+                <span>Users/Clients</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #dcf2ff; border: 2px solid #00b7c3;"></div>
+                <span>Azure Networking</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f0f4ff; border: 2px solid #3e65ff;"></div>
+                <span>Kubernetes Services</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f4f0ff; border: 2px solid #7b4eff;"></div>
+                <span>Celery Workers</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #fff0f7; border: 2px solid #ff4dae;"></div>
+                <span>Data Storage</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #efffef; border: 2px solid #23c552;"></div>
+                <span>LLM Services</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #f5f0ff; border: 2px solid #8a2be2;"></div>
+                <span>Speech Services</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background-color: #fff6e8; border: 2px solid #ff8c00;"></div>
+                <span>Monitoring</span>
+            </div>
+        </div>
+        
+        <div class="architecture-diagram" id="diagram">
+            <!-- On-Premises Infrastructure -->
+            <div class="on-prem-border" style="left: 300px; top: 2080px; width: 340px; height: 220px;"></div>
+            <div class="section-label" style="left: 320px; top: 2065px; background-color: #ddd;">On-Premises Infrastructure</div>
+            
+            <div class="component speech-component wide-component" style="left: 350px; top: 2130px;" id="deepgram-stt">
+                <div class="component-title">Deepgram STT</div>
+                <div class="component-description">On-premises Speech-to-Text Modified by Puretalk.ai's team for high Accuracy (WER significantly improved) Global Regions</div>
+            </div>
+            
+            <!-- Global Users Section -->
+            <div class="section-border" style="left: 50px; top: 50px; width: 500px; height: 220px;"></div>
+            <div class="section-label" style="left: 70px; top: 35px;">Global User Base</div>
+            
+            <div class="component user-component" style="left: 100px; top: 90px;" id="na-users">
+                <div class="component-title">North America (Available)</div>
+                <div class="component-description">Mobile & Web Users</div>
+            </div>
+            
+            <div class="component user-component" style="left: 350px; top: 90px;" id="eu-users">
+                <div class="component-title">Europe (Available)</div>
+                <div class="component-description">Mobile & Web Users</div>
+            </div>
+            
+            <div class="component user-component" style="left: 225px; top: 190px;" id="asia-users">
+                <div class="component-title">Asia-Pacific (Coming soon)</div>
+                <div class="component-description">Mobile & Web Users</div>
+            </div>
+            
+            <!-- Global Traffic Distribution -->
+            <div class="section-border" style="left: 630px; top: 50px; width: 1050px; height: 220px;"></div>
+            <div class="section-label" style="left: 650px; top: 35px;">Global Traffic Distribution</div>
+            
+            <div class="component azure-networking wide-component" style="left: 700px; top: 90px;" id="traffic-manager">
+                <div class="component-title">Azure Traffic Manager</div>
+                <div class="component-description">Global DNS-based Load Balancer for latency-based routing</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 1030px; top: 90px;" id="front-door">
+                <div class="component-title">Azure Front Door</div>
+                <div class="component-description">Global Edge Network with WAF protection</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 1360px; top: 90px;" id="cdn">
+                <div class="component-title">Azure CDN</div>
+                <div class="component-description">Content delivery for static assets</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 700px; top: 190px;" id="express-route">
+                <div class="component-title">ExpressRoute</div>
+                <div class="component-description">Private Connection to On-Premises</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 1030px; top: 190px;" id="ddos-protection">
+                <div class="component-title">DDoS Protection</div>
+                <div class="component-description">Network protection against attacks</div>
+            </div>
+            
+             <div class="component security-component wide-component" style="left: 1350px; top: 175px;" id="cloudflare">
+                <div class="component-title">Cloudflare</div>
+                <div class="component-description">DNS Management & DDoS Protection at global edge level</div>
+            </div>
+            
+            <!-- Primary Region -->
+            <div class="section-border" style="left: 50px; top: 350px; width: 800px; height: 1550px;"></div>
+            <div class="section-label" style="left: 70px; top: 335px;">Primary Region (East US 2)</div>
+            
+            <!-- Secondary Region -->
+            <div class="section-border" style="left: 950px; top: 350px; width: 750px; height: 1550px;"></div>
+            <div class="section-label" style="left: 970px; top: 335px;">Secondary Region (West US 2) - IN CASE PRIMARY REGION FAILS</div>
+            
+            <!-- Primary Region Edge Components -->
+            <div class="section-border" style="left: 100px; top: 400px; width: 700px; height: 220px;"></div>
+            <div class="section-label" style="left: 120px; top: 385px;">Edge Components</div>
+            
+            <div class="component azure-networking wide-component" style="left: 150px; top: 440px;" id="app-gateway-primary">
+                <div class="component-title">Application Gateway</div>
+                <div class="component-description">TLS + WAF + URL-based routing</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 450px; top: 440px;" id="api-mgmt-primary">
+                <div class="component-title">API Management</div>
+                <div class="component-description">API gateway, documentation & throttling</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 150px; top: 540px;" id="load-balancer-primary">
+                <div class="component-title">Load Balancer</div>
+                <div class="component-description">Layer 4 load balancing for AKS</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 450px; top: 540px;" id="firewall-primary">
+                <div class="component-title">Azure Firewall</div>
+                <div class="component-description">Network security & filtering</div>
+            </div>
+            
+            <!-- Secondary Region Edge Components -->
+            <div class="section-border" style="left: 1000px; top: 400px; width: 650px; height: 220px;"></div>
+            <div class="section-label" style="left: 1020px; top: 385px;">Edge Components</div>
+            
+            <div class="component azure-networking wide-component" style="left: 1080px; top: 440px;" id="app-gateway-secondary">
+                <div class="component-title">Application Gateway</div>
+                <div class="component-description">TLS + WAF + URL-based routing</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 1350px; top: 440px;" id="api-mgmt-secondary">
+                <div class="component-title">API Management</div>
+                <div class="component-description">API gateway, documentation & throttling</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 1080px; top: 540px;" id="load-balancer-secondary">
+                <div class="component-title">Load Balancer</div>
+                <div class="component-description">Layer 4 load balancing for AKS</div>
+            </div>
+            
+            <div class="component azure-networking wide-component" style="left: 1350px; top: 540px;" id="firewall-secondary">
+                <div class="component-title">Azure Firewall</div>
+                <div class="component-description">Network security & filtering</div>
+            </div>
+            
+            <!-- Primary Region Kubernetes Cluster -->
+            <div class="section-border" style="left: 100px; top: 650px; width: 700px; height: 220px;"></div>
+            <div class="section-label" style="left: 120px; top: 635px;">AKS Cluster - Primary</div>
+            
+            <div class="component k8s-component extra-wide-component" style="left: 125px; top: 690px;" id="aks-system-primary">
+                <div class="component-title">System Node Pool</div>
+                <div class="component-description">D4s v3 VMs (4 vCPUs, 16GB) for system services & cluster management</div>
+            </div>
+            
+            <div class="component k8s-component extra-wide-component" style="left: 125px; top: 780px;" id="aks-inference-primary">
+                <div class="component-title">Inference Node Pool</div>
+                <div class="component-description">NC-series GPU VMs for AI model inference with auto-scaling based on demand</div>
+            </div>
+            
+            <div class="component k8s-component extra-wide-component" style="left: 525px; top: 690px;" id="aks-worker-primary">
+                <div class="component-title">Worker Node Pool</div>
+                <div class="component-description">D8s v5 VMs (8 vCPUs, 32GB) for Celery workers & batch processing</div>
+            </div>
+            
+            <div class="component k8s-component extra-wide-component" style="left: 525px; top: 780px;" id="aks-api-primary">
+                <div class="component-title">API Node Pool</div>
+                <div class="component-description">D4s v3 VMs for API services with horizontal pod autoscaler for 10M+ users</div>
+            </div>
+            
+            <!-- Secondary Region Kubernetes Cluster -->
+            <div class="section-border" style="left: 1000px; top: 650px; width: 650px; height: 220px;"></div>
+            <div class="section-label" style="left: 1020px; top: 635px;">AKS Cluster - Secondary</div>
+            
+            <div class="component k8s-component extra-wide-component" style="left: 1025px; top: 690px;" id="aks-system-secondary">
+                <div class="component-title">System Node Pool</div>
+                <div class="component-description">D4s v3 VMs for system services & cluster management in DR region</div>
+            </div>
+            
+            <div class="component k8s-component extra-wide-component" style="left: 1025px; top: 780px;" id="aks-inference-secondary">
+                <div class="component-title">Inference Node Pool</div>
+                <div class="component-description">NC-series GPU VMs for AI model inference in DR region</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 1425px; top: 735px;" id="aks-combined-secondary">
+                <div class="component-title">Worker/API Pool</div>
+                <div class="component-description">Combined pool for workers & API services in DR region</div>
+            </div>
+            
+            <!-- Primary Region API Services -->
+            <div class="section-border" style="left: 100px; top: 900px; width: 700px; height: 220px;"></div>
+            <div class="section-label" style="left: 120px; top: 885px;">API Services</div>
+            
+            <div class="component k8s-component wide-component" style="left: 150px; top: 940px;" id="chat-api">
+                <div class="component-title">Chat API</div>
+                <div class="component-description">Core orchestration service for message routing & conversation handling</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 450px; top: 940px;" id="user-api">
+                <div class="component-title">User Management</div>
+                <div class="component-description">Authentication, authorization & user profile services</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 150px; top: 1040px;" id="analytics-api">
+                <div class="component-title">Analytics API</div>
+                <div class="component-description">Real-time metrics & conversation analytics</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 450px; top: 1040px;" id="admin-api">
+                <div class="component-title">Admin API</div>
+                <div class="component-description">System administration & configuration</div>
+            </div>
+            
+            <!-- Secondary Region API Services -->
+            <div class="section-border" style="left: 1000px; top: 900px; width: 650px; height: 220px;"></div>
+            <div class="section-label" style="left: 1020px; top: 885px;">API Services (DR)</div>
+            
+            <div class="component k8s-component wide-component" style="left: 1050px; top: 940px;" id="chat-api-dr">
+                <div class="component-title">Chat API (DR)</div>
+                <div class="component-description">Redundant chat orchestration service for failover</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 1350px; top: 940px;" id="user-api-dr">
+                <div class="component-title">User Management (DR)</div>
+                <div class="component-description">Secondary authentication service</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 1050px; top: 1040px;" id="analytics-api-dr">
+                <div class="component-title">Analytics API (DR)</div>
+                <div class="component-description">Secondary analytics processing</div>
+            </div>
+            
+            <div class="component k8s-component wide-component" style="left: 1350px; top: 1040px;" id="admin-api-dr">
+                <div class="component-title">Admin API (DR)</div>
+                <div class="component-description">Secondary administration service</div>
+            </div>
+            
+            <!-- Primary Region LLM Services -->
+            <div class="section-border" style="left: 100px; top: 1150px; width: 700px; height: 220px;"></div>
+            <div class="section-label" style="left: 120px; top: 1135px;">LLM Services</div>
+            
+            <div class="component llm-component wide-component" style="left: 150px; top: 1190px;" id="plg-llm">
+                <div class="component-title">PLG LLM (In-house LLM)</div>
+                <div class="component-description">Puretalk Language Generator is an LLM optimized for conversational AI with context management (Domain Driven)</div>
+            </div>
+            
+            <div class="component llm-component wide-component" style="left: 450px; top: 1190px;" id="openai-integration">
+                <div class="component-title">OpenAI Integration</div>
+                <div class="component-description">Out-of-scope conversation fallback with Azure OpenAI Service</div>
+            </div>
+            
+            <div class="component llm-component wide-component" style="left: 150px; top: 1290px;" id="embedding-service">
+                <div class="component-title">Embedding Service</div>
+                <div class="component-description">Vector embedding generation for semantic search & retrieval</div>
+            </div>
+            
+            <div class="component llm-component wide-component" style="left: 450px; top: 1290px;" id="model-training">
+                <div class="component-title">Model Training</div>
+                <div class="component-description">Continuous training & optimization pipeline for PLG models</div>
+            </div>
+            
+            <!-- Secondary Region LLM Services -->
+            <div class="section-border" style="left: 1000px; top: 1150px; width: 650px; height: 220px;"></div>
+            <div class="section-label" style="left: 1020px; top: 1135px;">LLM Services (DR)</div>
+            
+            <div class="component llm-component wide-component" style="left: 1050px; top: 1190px;" id="plg-llm-dr">
+                <div class="component-title">PLG LLM (DR)</div>
+                <div class="component-description">Secondary instance of proprietary LLM for global load distribution</div>
+            </div>
+            
+            <div class="component llm-component wide-component" style="left: 1350px; top: 1190px;" id="openai-integration-dr">
+                <div class="component-title">OpenAI Integration (DR)</div>
+                <div class="component-description">Secondary OpenAI fallback service</div>
+            </div>
+            
+            <div class="component llm-component wide-component" style="left: 1050px; top: 1290px;" id="embedding-service-dr">
+                <div class="component-title">Embedding Service (DR)</div>
+                <div class="component-description">Secondary vector embedding service</div>
+            </div>
+            
+            <!-- Primary Region Speech Services -->
+            <div class="section-border" style="left: 100px; top: 1400px; width: 700px; height: 170px;"></div>
+            <div class="section-label" style="left: 120px; top: 1385px;">Speech Services</div>
+            
+            <div class="component speech-component wide-component" style="left: 150px; top: 1435px;" id="tts-plus">
+                <div class="component-title">TTS+</div>
+                <div class="component-description">Proprietary Text-to-Speech engine with natural voice synthesis</div>
+            </div>
+            
+            <div class="component speech-component wide-component" style="left: 450px; top: 1435px;" id="voice-processing">
+                <div class="component-title">Voice Processing</div>
+                <div class="component-description">Audio preprocessing, enhancement & normalization</div>
+            </div>
+            
+            <!-- Secondary Region Speech Services -->
+            <div class="section-border" style="left: 1000px; top: 1400px; width: 650px; height: 170px;"></div>
+            <div class="section-label" style="left: 1020px; top: 1385px;">Speech Services (DR)</div>
+            
+            <div class="component speech-component wide-component" style="left: 1050px; top: 1435px;" id="tts-plus-dr">
+                <div class="component-title">TTS+ (DR)</div>
+                <div class="component-description">Secondary Text-to-Speech service for redundancy</div>
+            </div>
+            
+            <div class="component speech-component wide-component" style="left: 1350px; top: 1435px;" id="voice-processing-dr">
+                <div class="component-title">Voice Processing (DR)</div>
+                <div class="component-description">Secondary audio processing service</div>
+            </div>
+            
+            <!-- Primary Region Celery Workers -->
+            <div class="section-border" style="left: 100px; top: 1600px; width: 700px; height: 170px;"></div>
+            <div class="section-label" style="left: 120px; top: 1585px;">Celery Workers</div>
+            
+            <div class="component celery-component wide-component" style="left: 150px; top: 1635px;" id="celery-workers">
+                <div class="component-title">Celery Workers</div>
+                <div class="component-description">Distributed task processing with priority queuing for async operations</div>
+            </div>
+            
+            <div class="component celery-component wide-component" style="left: 450px; top: 1635px;" id="celery-beat">
+                <div class="component-title">Celery Beat</div>
+                <div class="component-description">Scheduled task management & periodic job execution</div>
+            </div>
+            
+            <!-- Secondary Region Celery Workers -->
+            <div class="section-border" style="left: 1000px; top: 1600px; width: 650px; height: 170px;"></div>
+            <div class="section-label" style="left: 1020px; top: 1585px;">Celery Workers (DR)</div>
+            
+            <div class="component celery-component wide-component" style="left: 1050px; top: 1635px;" id="celery-workers-dr">
+                <div class="component-title">Celery Workers (DR)</div>
+                <div class="component-description">Secondary task processing for redundancy</div>
+            </div>
+            
+            <div class="component celery-component wide-component" style="left: 1350px; top: 1635px;" id="celery-beat-dr">
+                <div class="component-title">Celery Beat (DR)</div>
+                <div class="component-description">Secondary scheduled task service</div>
+            </div>
+            
+            <!-- Primary Region Data Storage -->
+            <div class="section-border" style="left: 100px; top: 1800px; width: 700px; height: 270px;"></div>
+            <div class="section-label" style="left: 120px; top: 1785px;">Data Storage</div>
+            
+            <div class="component data-component wide-component" style="left: 150px; top: 1835px;" id="postgres">
+                <div class="component-title">PostgreSQL</div>
+                <div class="component-description">Flexible server with high availability (99.99% SLA) for structured data</div>
+            </div>
+            
+            <div class="component data-component wide-component" style="left: 450px; top: 1835px;" id="cosmos-db">
+                <div class="component-title">Cosmos DB</div>
+                <div class="component-description">Multi-region deployment
